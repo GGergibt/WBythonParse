@@ -29,6 +29,3 @@ def add_to_wp(pr):
     response = wcapi.post("products", pr)
 
 
-# add_to_wp(pr)
-
-# print(response.json())
