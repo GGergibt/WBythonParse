@@ -1,6 +1,5 @@
 from requests_html import HTMLSession
 
-from pydantic import BaseModel
 
 from prototype_add_products import add_to_wp
 
