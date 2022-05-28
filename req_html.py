@@ -1,12 +1,10 @@
 from requests_html import HTMLSession
 
-from pydantic import BaseModel
 
 from prototype_add_products import add_to_wp
 
 
-# prod = r.html.find("div.product-card-list")
-# print(prod[0])
+
 def parse_img(product):
     img_tag = r.html.xpath(f'//*[@id="{product.attrs["id"]}"]/div/a/div[1]/div[2]/img')
     img_tag_without_probels = str(img_tag).split("=")
@@ -23,7 +21,6 @@ def parse_img(product):
 def add_to_model(product, valid_name_product, valid_img, price):
     # print(valid_img)
     model = {
-        # "product_id": product.attrs["id"],
         "name": valid_name_product,
         "regular_price": price,
         "images": [
@@ -36,7 +33,6 @@ def add_to_model(product, valid_name_product, valid_img, price):
     return model
 
 
-# //*[@id="c35678773"]/div/a/div[2]/div[1]/span/ins
 def get_price(product):
     # print(product.text)
     i = product.text.replace("\n", " ")
@@ -64,14 +60,10 @@ if __name__ == "__main__":
 
     r = s.get(url)
     r.html.render(sleep=1)
-    # prod = r.html.xpath('//*[@id="c37157994"]')
     prod = r.html.find("div.product-card.j-card-item.j-good-for-listing-event")
 
     for product in prod:
         price = get_price(product)
         valid_img, valid_name_product = parse_img(product)
         model = add_to_model(product, valid_name_product, valid_img, price)
-        # print(valid_img)
-        # print(model.json)
         add_to_wp(model)
-#     print(product.)
